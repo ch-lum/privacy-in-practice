@@ -5,26 +5,29 @@ export function getPublicPath(path: string): string {
   }
 
   // Remove leading slash if present
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  
+  const cleanPath = path.startsWith("/") ? path.slice(1) : path;
+
   // Check if we're running in the browser
-  const isClient = typeof window !== 'undefined';
-  
+  const isClient = typeof window !== "undefined";
+
   // Detect GitHub Pages hosting
-  const isGitHubPages = isClient && window.location.hostname.includes('github.io');
-  
+  const isGitHubPages =
+    isClient &&
+    (window.location.hostname.includes("github.io") ||
+      window.location.hostname.includes("lum"));
+
   // Build the appropriate path
   let finalPath;
-  
+
   if (isGitHubPages) {
     // GitHub Pages deployment
-    const repoName = window.location.pathname.split('/')[1];
+    const repoName = window.location.pathname.split("/")[1];
     finalPath = `/${repoName}/${cleanPath}`;
   } else {
     // Local development or other hosting
     finalPath = `/${cleanPath}`;
   }
-  
+
   console.log(`getPublicPath: ${path} -> ${finalPath}`);
   return finalPath;
-} 
+}
